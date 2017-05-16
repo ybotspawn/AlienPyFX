@@ -1,0 +1,62 @@
+import usb.core
+import usb.util
+
+dev = usb.core.find(idVendor=0x187c, idProduct=0x0527)
+endpoint = dev[0][(0,0)][0]
+config = dev.get_active_configuration()
+intf = config[(0,0)]
+if dev.is_kernel_driver_active(1) is True:
+    dev.detach_kernel_driver(1)
+usb.util.claim_interface(dev, 0)
+dev.set_configuration(config)
+commit = "x\02x\04"
+lineOne = "x\02x\03x\02x\00x\00x\08x\f0x\00"
+lineTwo = "x\02x\03x\03x\00x\00x\04x\f0x\00"
+lineThree = "x\02x\03x\04x\00x\00x\02x\f0x\00"
+lineFour = "x\02x\03x\05x\00x\00x\01x\f0x\00"
+lineFive = "x\02x\03x\06x\00x\00x\60x\f0x\00"
+lineSix = "x\02x\03x\07:00:01:00x\f0x\00"
+lineSeven = "x\02x\03x\08:00:02:00x\f0x\00"
+lineEight = "x\02x\03x\09:00:48:00x\f0x\00"
+lineNine = "x\02x\03x\0ax\00x\00x\80x\f0x\00"
+
+assert dev.ctrl_transfer(0x21, 9, 0, 0, lineOne) == len(lineOne)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, commit) == len(commit)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, lineTwo) == len(lineTwo)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, commit) == len(commit)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, lineThree) == len(lineThree)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, commit) == len(commit)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, lineFour) == len(lineFour)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, commit) == len(commit)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, lineFive) == len(lineFive)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, commit) == len(commit)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, lineSix) == len(lineSix)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, commit) == len(commit)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, lineSeven) == len(lineSeven)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, commit) == len(commit)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, lineEight) == len(lineEight)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, commit) == len(commit)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, lineNine) == len(lineNine)
+assert dev.ctrl_transfer(0x21, 9, 0, 0, commit) == len(commit)
+
+#ret = dev.ctrl_transfer(0xC0, CTRL_LOOPBACK_READ, 0, 0, len(msg))
+#sret = ''.join([chr(x) for x in ret])
+#assert sret == msg
+
+
+###################################################
+for ep in intf:
+    print('\t\t' + str(ep.bEndpointAddress) + '\n')
+
+
+# ep.write('test')
+
+c = 1
+for cfg in dev:
+    print 'config', c
+    print 'Interfaces', cfg.bNumInterfaces
+    for i in range(cfg.bNumInterfaces):
+        if dev.is_kernel_driver_active(i):
+            dev.detach_kernel_driver(i)
+        print i
+    c+=1

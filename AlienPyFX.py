@@ -41,7 +41,21 @@ class AlienwareDeviceManager(object):
         ep.write('test')
         for cfg in dev:
             cfg.set()
-    def temp_doTheThing(self):
+    def temp_doTheThingMk2(self):
+        dev = usb.core.find(idVendor=0x187c, idProduct=0x0527)
+        endpoint = dev[0][(0,0)][0]
+        config = dev.get_active_configuration()
+        intf = config[(0,0)]
+        if dev.is_kernel_driver_active(1) is True:
+            dev.detach_kernel_driver(1)
+        usb.util.claim_interface(dev, 0)
+        dev.set_configuration(config)
+        f = open('afx-allred')
+        for line in f.readlines():
+            message = line.replace('\n', '')
+            assert dev.ctrl_transfer(0x21, 9, 0, 0, message) == len(line)
+
+    def temp_doTheThingMk1(self):
         dev = usb.core.find(idVendor=0x187c, idProduct=0x0527)
         endpoint = dev[0][(0,0)][0]
         config = dev.get_active_configuration()

@@ -9,13 +9,13 @@ if dev.is_kernel_driver_active(1) is True:
     dev.detach_kernel_driver(0)
 print("placeholder")
 usb.util.claim_interface(dev, 0)
-dev.set_configuration(config)
-f = open('afx-allgreen')
+#dev.set_configuration(config)
+f = open('afx-allred')
 lines = f.readlines()
 for line in lines:
+    # add handler for lines that have comments
     testLine = line.replace(':', r'\x')
     testLine = testLine.replace('\n', '')
     testLine = r"\x{0}".format(testLine)
     message = testLine.decode("string-escape")
-    print(message)
-    dev.ctrl_transfer(0x21, 9, 0, 0, message) == len(message)
+    dev.ctrl_transfer(0x21, 9, 0, 0, message)

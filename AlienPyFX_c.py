@@ -8,7 +8,8 @@ class AlienwareDeviceManager(object):
     dev = None
 
     def __init__(self):
-        print("Init")
+        # Placeholder
+        pass
 
     def apply_theme(self, themeFilePath):
         self.__attach_usb_device__()

@@ -11,14 +11,14 @@ class AlienwareDeviceManager(object):
         print("Init")
 
     def apply_theme(self, themeFilePath):
-        attach_usb_device()
+        __attach_usb_device__()
         __apply_theme__(themeFilePath)
     
     def lights_off(self):
         print("turning lights off")
 
     def lights_on(self):
-        print("turning lights off")
+        print("turning lights on")
 
     def __send_usb_message__(self, line):
         if not line.startswith('#'):

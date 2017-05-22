@@ -11,8 +11,8 @@ class AlienwareDeviceManager(object):
         print("Init")
 
     def apply_theme(self, themeFilePath):
-        __attach_usb_device__()
-        __apply_theme__(themeFilePath)
+        self.__attach_usb_device__()
+        self.__apply_theme__(themeFilePath)
     
     def lights_off(self):
         print("turning lights off")
@@ -28,7 +28,7 @@ class AlienwareDeviceManager(object):
     def __apply_theme__(self, themeFilePath):
         f = open(themeFilePath)
         for line in f.readlines():
-            __send_usb_message__(line)
+            self.__send_usb_message__(line)
 
     def __attach_usb_device__(self):
         self.dev = usb.core.find(idVendor=self.vendorID, idProduct=self.productID)

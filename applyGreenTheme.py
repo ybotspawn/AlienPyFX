@@ -4,13 +4,14 @@ dev = usb.core.find(idVendor=0x187c, idProduct=0x0527)
 endpoint = dev[0][(0,0)][0]
 config = dev.get_active_configuration()
 intf = config[(0,0)]
-if dev.is_kernel_driver_active(1) is True:
-    dev.detach_kernel_driver(1)
+if dev.is_kernel_driver_active(0) is True:
     dev.detach_kernel_driver(0)
-print("placeholder")
+elif dev.is_kernel_driver_active(1) is True:
+    dev.detach_kernel_driver(1)
+
 usb.util.claim_interface(dev, 0)
 #dev.set_configuration(config)
-f = open('afx-allred')
+f = open('afx-allgreen')
 lines = f.readlines()
 for line in lines:
     # add handler for lines that have comments

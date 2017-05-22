@@ -23,7 +23,7 @@ class AlienwareDeviceManager(object):
     def __send_usb_message__(self, line):
         if not line.startswith('#'):
             message = r"\x{0}".format(line.replace(':', r'\x').replace('\n', ''))
-            assert dev.ctrl_transfer(0x21, 9, 0, 0, message.decode("string-escape")) == len(message.decode("string-escape"))
+            assert self.dev.ctrl_transfer(0x21, 9, 0, 0, message.decode("string-escape")) == len(message.decode("string-escape"))
 
     def __apply_theme__(self, themeFilePath):
         f = open(themeFilePath)

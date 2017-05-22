@@ -5,7 +5,6 @@ import argparse
 class AlienwareDeviceManager(object):
     vendorID = 0x187c
     productID = 0x0527
-    handle = None
     dev = None
 
     def __init__(self):

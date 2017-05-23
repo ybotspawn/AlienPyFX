@@ -1,3 +1,5 @@
+#!/usr/bin/python2.7
+
 import usb.core
 import usb.util
 import argparse
@@ -8,8 +10,7 @@ class AlienwareDeviceManager(object):
     dev = None
 
     def __init__(self):
-        # Placeholder
-        pass
+        print("Init")
 
     def apply_theme(self, themeFilePath):
         self.__attach_usb_device__()
@@ -24,7 +25,9 @@ class AlienwareDeviceManager(object):
     def __send_usb_message__(self, line):
         if not line.startswith('#'):
             message = r"\x{0}".format(line.replace(':', r'\x').replace('\n', ''))
-            assert self.dev.ctrl_transfer(0x21, 9, 0, 0, message.decode("string-escape")) == len(message.decode("string-escape"))
+            while True:
+                if self.dev.ctrl_transfer(0x21, 9, 0, 0, message.decode("string-escape")) == len(message.decode("string-escape")):
+                    break
 
     def __apply_theme__(self, themeFilePath):
         f = open(themeFilePath)
